@@ -7,24 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class Detail : Fragment() {
+class CityListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = Detail()
+        fun newInstance() = CityListFragment()
     }
 
-    private lateinit var viewModel: DetailViewModel
+    private lateinit var viewModel: CityListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        return inflater.inflate(R.layout.fragment_city_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
