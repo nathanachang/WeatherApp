@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#2196F3"
     android:textAlignment="center"
-    tools:context=".CityList">
+    tools:context=".CityListFragment">
 
     <TextView
         android:layout_width="match_parent"

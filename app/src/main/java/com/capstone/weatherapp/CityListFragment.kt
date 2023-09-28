@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class CityList : Fragment() {
+class CityListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CityList()
+        fun newInstance() = CityListFragment()
     }
 
     private lateinit var viewModel: CityListViewModel
@@ -19,7 +19,7 @@ class CityList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_citylist, container, false)
+        return inflater.inflate(R.layout.fragment_city_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
