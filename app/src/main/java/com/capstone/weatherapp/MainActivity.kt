@@ -15,6 +15,6 @@ import com.capstone.weatherapp.ui.theme.WeatherAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_detail)
+        setContentView(R.layout.fragment_citylist)
     }
 }

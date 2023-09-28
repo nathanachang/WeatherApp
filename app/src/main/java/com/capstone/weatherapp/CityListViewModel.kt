@@ -2,6 +2,6 @@ package com.capstone.weatherapp
 
 import androidx.lifecycle.ViewModel
 
-class DetailViewModel : ViewModel() {
+class CityListViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }
