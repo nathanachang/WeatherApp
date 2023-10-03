@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CityListAdapter (private val cityList : List<City>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+class CityListAdapter (private val cityList : List<Int>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView = itemView.findViewById<TextView>(R.id.city_name)
     }
@@ -21,10 +21,11 @@ class CityListAdapter (private val cityList : List<City>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
-        val city: City = cityList.get(position)
+        val city: Int = cityList[position]
 
         val textView = holder.nameTextView
-        textView.setText(city.name)
+        val text = "List Item ${city}"
+        textView.text = text
     }
 
     override fun getItemCount(): Int {
