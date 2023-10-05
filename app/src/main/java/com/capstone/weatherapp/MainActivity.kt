@@ -1,11 +1,15 @@
 package com.capstone.weatherapp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.capstone.weatherapp.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_city_list)
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
