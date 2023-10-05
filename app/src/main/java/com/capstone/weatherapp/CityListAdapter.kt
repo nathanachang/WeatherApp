@@ -23,9 +23,7 @@ class CityListAdapter (private val cityList : List<Int>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
         val city: Int = cityList[position]
 
-        val textView = holder.nameTextView
-        val text = "List Item ${city}"
-        textView.text = text
+        holder.nameTextView.text = "List Item ${city}"
     }
 
     override fun getItemCount(): Int {
