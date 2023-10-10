@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.MutableLiveData
 
-class CityListAdapter (private val cityList : List<Int>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+class CityListAdapter (private val cityList : MutableLiveData<List<City>>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+    private val cities: List<City> = cityList.value ?: emptyList()
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView = itemView.findViewById<TextView>(R.id.city_name)
     }
@@ -21,12 +23,12 @@ class CityListAdapter (private val cityList : List<Int>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
-        val city: Int = cityList[position]
+        val city: City = cities[position]
 
-        holder.nameTextView.text = "List Item ${city}"
+        holder.nameTextView.text = "List Item ${city.name}"
     }
 
     override fun getItemCount(): Int {
-        return cityList.size
+        return cities.size
     }
 }

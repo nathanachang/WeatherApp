@@ -1,9 +1,23 @@
 package com.capstone.weatherapp
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 class CityListViewModel : ViewModel() {
-    private var _list = ArrayList<Int>(List(100) { it + 1 })
-    val list: ArrayList<Int>
-        get() = _list
+    private val _cityList = MutableLiveData<List<City>>()
+    val cityList: MutableLiveData<List<City>>
+        get() = _cityList
+
+    fun getCities() {
+        viewModelScope.launch {
+            try {
+                _cityList.value = WeatherApiClient.retrofitService.getCities()
+            } catch (e: Exception) {
+                _cityList.value = listOf()
+            }
+        }
+
+    }
 }
