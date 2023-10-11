@@ -11,6 +11,10 @@ class CityListAdapter (private val cityList : MutableLiveData<List<City>>) : Rec
     private val cities: List<City> = cityList.value ?: emptyList()
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView = itemView.findViewById<TextView>(R.id.city_name)
+        val countryTextView = itemView.findViewById<TextView>(R.id.country)
+        val tempTextView = itemView.findViewById<TextView>(R.id.temp)
+        val lowHighTextView = itemView.findViewById<TextView>(R.id.low_high)
+        val humidityTextView = itemView.findViewById<TextView>(R.id.humidity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityListAdapter.ViewHolder {
@@ -23,9 +27,15 @@ class CityListAdapter (private val cityList : MutableLiveData<List<City>>) : Rec
     }
 
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
-        val city: City = cities[position]
+        holder.nameTextView.text = cities[position].name
+        holder.countryTextView.text = cities[position].sys.country
+        holder.tempTextView.text = "${convertKtoF(cities[position].main.temp)}℉"
+        holder.lowHighTextView.text = "${convertKtoF(cities[position].main.tempMin)}℉/${convertKtoF(cities[position].main.tempMax)}℉"
+        holder.humidityTextView.text = "${cities[position].main.humidity}%"
+    }
 
-        holder.nameTextView.text = "List Item ${city.name}"
+    private fun convertKtoF(temp: Double) : Int {
+        return ((temp-273.15) * 9/5 + 32).toInt()
     }
 
     override fun getItemCount(): Int {

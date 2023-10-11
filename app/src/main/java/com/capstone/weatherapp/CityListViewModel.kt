@@ -13,7 +13,7 @@ class CityListViewModel : ViewModel() {
     fun getCities() {
         viewModelScope.launch {
             try {
-                _cityList.value = WeatherApiClient.retrofitService.getCities()
+                _cityList.value = WeatherApiClient.retrofitService.getCities().cityList
             } catch (e: Exception) {
                 _cityList.value = listOf()
             }

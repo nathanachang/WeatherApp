@@ -9,10 +9,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.weatherapp.databinding.FragmentCityListBinding
+import androidx.fragment.app.viewModels
 
 class CityListFragment : Fragment() {
 
-    private lateinit var viewModel: CityListViewModel
+    private val viewModel: CityListViewModel by viewModels()
     private lateinit var rvCities: RecyclerView
     private var _binding: FragmentCityListBinding? = null
     val binding: FragmentCityListBinding
@@ -31,8 +32,7 @@ class CityListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvCities = binding.rvCities
-        viewModel = CityListViewModel()
-        rvCities.adapter = CityListAdapter(viewModel.list)
+        rvCities.adapter = CityListAdapter(viewModel.cityList)
         rvCities.layoutManager = LinearLayoutManager(context)
     }
 }
