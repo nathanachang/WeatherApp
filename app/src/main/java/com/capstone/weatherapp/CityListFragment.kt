@@ -32,10 +32,14 @@ class CityListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getCities()
         rvCities = binding.rvCities
-        cityListAdapter = CityListAdapter(viewModel.cityList)
+        cityListAdapter = CityListAdapter()
         rvCities.adapter = cityListAdapter
         rvCities.layoutManager = LinearLayoutManager(context)
+
+        viewModel.cityList.observe(viewLifecycleOwner) {
+            cityListAdapter.updateData(it)
+        }
+        viewModel.getCities()
     }
 }

@@ -4,6 +4,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.openweathermap.org/"
 
@@ -17,8 +18,11 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface WeatherApi {
-    @GET("data/2.5/group?id=2643741,2644688,2633352,2654675,2988507,2990969,2911298,2925535,2950159,3120501,3128760,5128581,4140963,4930956,5106834,5391959,5368361,5809844,4099974,4440906&appid=6849ae760f417fb8188f4bb7fd0d92fc&units=imperial")
-    suspend fun getCities() : WeatherApiResponse
+    @GET("data/2.5/group")
+    suspend fun getCities(@Query("id") cities: String,
+                          @Query("appid") apiKey: String,
+                          @Query("units") units: String
+    ) : WeatherApiResponse
 }
 
 object WeatherApiClient {
