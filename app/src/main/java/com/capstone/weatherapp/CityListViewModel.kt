@@ -15,7 +15,7 @@ class CityListViewModel : ViewModel() {
             try {
                 _cityList.value = WeatherApiClient.retrofitService.getCities().cityList
             } catch (e: Exception) {
-                _cityList.value = listOf()
+                _cityList.value = emptyList()
             }
         }
     }

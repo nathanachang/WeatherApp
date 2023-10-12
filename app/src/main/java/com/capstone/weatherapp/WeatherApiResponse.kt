@@ -1,3 +1,3 @@
 package com.capstone.weatherapp
 
-data class WeatherApiResponse(val cnt: Int, val cityList: List<City>)
+data class WeatherApiResponse(val cod: Int, val cityList: List<City>)
