@@ -17,8 +17,12 @@ class CityListViewModel : ViewModel() {
     fun getCities() {
         viewModelScope.launch {
             try {
-                _cityList.value = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS).cityList
+                println("enter API call")
+                _cityList.value = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS).list
+                println("exit API call, City List: $cityList")
             } catch (e: Exception) {
+                println("enter catch exception type : $e")
+                println("${cityList.value}")
                 _cityList.value = emptyList()
             }
         }

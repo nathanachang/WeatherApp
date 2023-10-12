@@ -29,7 +29,7 @@ class CityListAdapter (private var cityList : List<City> = emptyList()) : Recycl
         holder.binding.cityName.text = cityList[position].name
         holder.binding.country.text = cityList[position].sys.country
         holder.binding.temp.text = "${cityList[position].main.temp}℉"
-        holder.binding.lowHigh.text = "${cityList[position].main.tempMin}℉/${cityList[position].main.tempMax}℉"
+        holder.binding.lowHigh.text = "${cityList[position].main.temp_min}℉/${cityList[position].main.temp_max}℉"
         holder.binding.humidity.text = "${cityList[position].main.humidity}%"
     }
 
