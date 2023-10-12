@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.lifecycle.MutableLiveData
+import com.capstone.weatherapp.databinding.ItemCityBinding
 
 class CityListAdapter (private val cityList : MutableLiveData<List<City>>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
-    private val cities: List<City> = cityList.value ?: emptyList()
+    private var cities: List<City> = cityList.value ?: emptyList()
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView = itemView.findViewById<TextView>(R.id.city_name)
         val countryTextView = itemView.findViewById<TextView>(R.id.country)
@@ -29,13 +31,9 @@ class CityListAdapter (private val cityList : MutableLiveData<List<City>>) : Rec
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
         holder.nameTextView.text = cities[position].name
         holder.countryTextView.text = cities[position].sys.country
-        holder.tempTextView.text = "${convertKtoF(cities[position].main.temp)}℉"
-        holder.lowHighTextView.text = "${convertKtoF(cities[position].main.tempMin)}℉/${convertKtoF(cities[position].main.tempMax)}℉"
+        holder.tempTextView.text = "${cities[position].main.temp}℉"
+        holder.lowHighTextView.text = "${cities[position].main.tempMin}℉/${cities[position].main.tempMax}℉"
         holder.humidityTextView.text = "${cities[position].main.humidity}%"
-    }
-
-    private fun convertKtoF(temp: Double) : Int {
-        return ((temp-273.15) * 9/5 + 32).toInt()
     }
 
     override fun getItemCount(): Int {

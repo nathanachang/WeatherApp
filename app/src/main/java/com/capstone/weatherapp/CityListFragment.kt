@@ -16,6 +16,7 @@ class CityListFragment : Fragment() {
     private val viewModel: CityListViewModel by viewModels()
     private lateinit var rvCities: RecyclerView
     private var _binding: FragmentCityListBinding? = null
+    private lateinit var cityListAdapter: CityListAdapter
     val binding: FragmentCityListBinding
         get() = _binding!!
 
@@ -31,8 +32,10 @@ class CityListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getCities()
         rvCities = binding.rvCities
-        rvCities.adapter = CityListAdapter(viewModel.cityList)
+        cityListAdapter = CityListAdapter(viewModel.cityList)
+        rvCities.adapter = cityListAdapter
         rvCities.layoutManager = LinearLayoutManager(context)
     }
 }

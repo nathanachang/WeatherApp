@@ -18,6 +18,5 @@ class CityListViewModel : ViewModel() {
                 _cityList.value = listOf()
             }
         }
-
     }
 }
