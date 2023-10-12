@@ -5,25 +5,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone.weatherapp.databinding.ItemCityBinding
 
-class CityListAdapter (private val cityList : List<Int>) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameTextView = itemView.findViewById<TextView>(R.id.city_name)
+class CityListAdapter (private var cityList : List<City> = emptyList()) : RecyclerView.Adapter<CityListAdapter.ViewHolder>() {
+
+    inner class ViewHolder(var binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root)
+
+    fun updateData(cities: List<City>) {
+        cityList = cities
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityListAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
 
-        val cityView = inflater.inflate(R.layout.item_city, parent, false)
+        val binding = ItemCityBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(cityView)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
-        val city: Int = cityList[position]
-
-        holder.nameTextView.text = "List Item ${city}"
+        holder.binding.cityName.text = cityList[position].name
+        holder.binding.country.text = cityList[position].sys.country
+        holder.binding.temp.text = "${cityList[position].main.temp}℉"
+        holder.binding.lowHigh.text = "${cityList[position].main.temp_min}℉/${cityList[position].main.temp_max}℉"
+        holder.binding.humidity.text = "${cityList[position].main.humidity}%"
     }
 
     override fun getItemCount(): Int {
