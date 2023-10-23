@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.weatherapp.databinding.ItemCityBinding
 
@@ -28,9 +30,14 @@ class CityListAdapter (private var cityList : List<City> = emptyList()) : Recycl
     override fun onBindViewHolder(holder: CityListAdapter.ViewHolder, position: Int) {
         holder.binding.cityName.text = cityList[position].name
         holder.binding.country.text = cityList[position].sys.country
-        holder.binding.temp.text = "${cityList[position].main.temp}℉"
-        holder.binding.lowHigh.text = "${cityList[position].main.temp_min}℉/${cityList[position].main.temp_max}℉"
-        holder.binding.humidity.text = "${cityList[position].main.humidity}%"
+        holder.binding.temp.text = String.format("%.0f℉", cityList[position].main.temp)
+        holder.binding.lowHigh.text = String.format("%.0f℉/%.0f℉", cityList[position].main.temp_min, cityList[position].main.temp_max)
+        holder.binding.humidity.text = String.format("%.0f%%", cityList[position].main.humidity)
+
+        holder.binding.root.setOnClickListener {
+            val onNavigateToDetails = CityListFragmentDirections.actionCityListFragmentToDetailsFragment()
+            holder.binding.root.findNavController().navigate(onNavigateToDetails)
+        }
     }
 
     override fun getItemCount(): Int {

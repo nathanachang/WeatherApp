@@ -42,4 +42,5 @@ class CityListFragment : Fragment() {
         }
         viewModel.getCities()
     }
+
 }
