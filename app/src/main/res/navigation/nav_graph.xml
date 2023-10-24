@@ -13,9 +13,13 @@
             android:id="@+id/action_cityListFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
-    `<fragment
+    <fragment
         android:id="@+id/detailsFragment"
         android:name="com.capstone.weatherapp.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="cityName"
+            app:argType="string" />
+    </fragment>
 </navigation>

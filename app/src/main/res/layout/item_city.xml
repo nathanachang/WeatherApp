@@ -7,7 +7,8 @@
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="#0C1D46"
     android:layout_margin="10dp"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    android:id="@+id/cityCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
