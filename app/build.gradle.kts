@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -51,6 +52,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-fragment:2.2.2")
+    implementation("androidx.navigation:navigation-ui:2.2.2")
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.2.2")
     implementation("androidx.fragment:fragment:1.2.5")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
