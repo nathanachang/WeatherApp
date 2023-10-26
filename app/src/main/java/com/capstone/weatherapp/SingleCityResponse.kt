@@ -10,7 +10,7 @@ data class SingleCityResponse(
     val clouds: Clouds,
     val dt: Int,
     val sys: SysDetails,
-    val timezone: Long,
+    val timezone: Int,
     val id: Int,
     val name: String,
     val cod: Int
