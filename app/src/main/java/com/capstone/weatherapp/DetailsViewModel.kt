@@ -17,11 +17,8 @@ class DetailsViewModel : ViewModel() {
     fun getCity(cityId: String) {
         viewModelScope.launch {
             try {
-                println("calling weather api with id $cityId")
                 _city.value = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
-                println(city.value?.name)
             } catch (e: Exception) {
-                println("error in api call: $e")
                 _city.value = null
             }
         }

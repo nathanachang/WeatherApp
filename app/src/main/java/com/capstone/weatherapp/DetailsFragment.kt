@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.capstone.weatherapp.databinding.FragmentDetailsBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,6 +50,17 @@ class DetailsFragment : Fragment() {
     }
 
     fun updateBinding(binding: FragmentDetailsBinding, city: SingleCityResponse?) {
+        Glide.with(this)
+            .load("https://openweathermap.org/img/wn/" + city!!.weather[0].icon + "@2x.png")
+            .centerCrop()
+            .into(binding.detailsIcon)
         binding.detailsCityName.text = city?.name
+        binding.detailsCountry.text = city?.sys?.country
+        binding.detailsDescription.text = city!!.weather[0].description.replaceFirstChar{it.uppercase()}
+        binding.detailsTemp.text = String.format("%.0f℉", city?.main?.temp)
+        binding.detailsLowHigh.text = String.format("%.0f℉/%.0f℉", city?.main?.temp_min, city?.main?.temp_max)
+        binding.detailsHumidity.text = String.format("%.0f%", city?.main?.humidity)
+        binding.detailsWindspeed.text = String.format("%.2f MPH", city?.wind?.speed)
+        binding.detailsPressure.text = String.format("%.0f hPa", city?.main?.pressure)
     }
 }
