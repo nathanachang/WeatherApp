@@ -19,7 +19,7 @@
         android:label="fragment_details"
         tools:layout="@layout/fragment_details">
         <argument
-            android:name="cityName"
+            android:name="cityId"
             app:argType="string" />
     </fragment>
 </navigation>

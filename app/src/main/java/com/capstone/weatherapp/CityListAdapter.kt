@@ -35,7 +35,7 @@ class CityListAdapter (private var cityList : List<City> = emptyList()) : Recycl
         holder.binding.humidity.text = String.format("%.0f%%", cityList[position].main.humidity)
 
         holder.binding.cityCard.setOnClickListener {
-            val onNavigateToDetails = CityListFragmentDirections.actionCityListFragmentToDetailsFragment(holder.binding.cityName.text.toString())
+            val onNavigateToDetails = CityListFragmentDirections.actionCityListFragmentToDetailsFragment(cityList[position].id.toString())
             holder.binding.root.findNavController().navigate(onNavigateToDetails)
         }
     }

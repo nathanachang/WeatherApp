@@ -24,6 +24,13 @@ interface WeatherApi {
         @Query("appid") apiKey: String,
         @Query("units") units: String
     ) : WeatherApiResponse
+
+    @GET("data/2.5/weather")
+    suspend fun getCity(
+        @Query("id") cityId: String,
+        @Query("appid") apiKey: String,
+        @Query("units") units: String
+    ) : SingleCityResponse
 }
 
 object WeatherApiClient {
