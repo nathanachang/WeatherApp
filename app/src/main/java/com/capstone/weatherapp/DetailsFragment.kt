@@ -47,6 +47,7 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,13 +66,10 @@ class DetailsFragment : Fragment() {
         binding.detailsCityName.text = city?.name
         binding.detailsCountry.text = city?.sys?.country
         binding.detailsDescription.text = city!!.weather[0].description.replaceFirstChar{it.uppercase()}
-        binding.detailsTemp.text = String.format("%.0f℉", city?.main?.temp)
-        binding.detailsLowHigh.text = String.format("%.0f℉/%.0f℉", city?.main?.temp_min, city?.main?.temp_max)
-        //binding.detailsHumidity.text = String.format("%.0f%", city?.main?.humidity)
+        binding.detailsTemp.text = "${city?.main?.temp?.roundToInt()}℉"
+        binding.detailsLowHigh.text = "${city?.main?.temp_min?.roundToInt()}℉/${city?.main?.temp_max?.roundToInt()}℉"
         binding.detailsHumidity.text = "${city?.main?.humidity?.roundToInt()}%"
-        //binding.detailsWindspeed.text = String.format("%.2f MPH", city?.wind?.speed)
         binding.detailsWindspeed.text = "${city?.wind?.speed?.roundToInt()} MPH"
-        //binding.detailsPressure.text = String.format("%.0f hPa", city?.main?.pressure)
         binding.detailsPressure.text = "${city?.main?.pressure?.roundToInt()} hPa"
         binding.detailsSunrise.text = convertTime(city?.sys?.sunrise, city?.timezone)
         binding.detailsSunset.text = convertTime(city?.sys?.sunset, city?.timezone)

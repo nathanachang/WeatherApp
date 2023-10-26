@@ -102,13 +102,13 @@
             tools:text="88%" />
         <ImageView
             android:id="@+id/detailsHumidityIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="2dp"
             app:layout_constraintEnd_toStartOf="@id/detailsHumidity"
             app:layout_constraintTop_toTopOf="@id/detailsLowHigh"
-            tools:src="@drawable/humidity_indicator" />
+            android:src="@drawable/humidity_indicator" />
         <View
             android:id="@+id/line2"
             android:layout_width="match_parent"
