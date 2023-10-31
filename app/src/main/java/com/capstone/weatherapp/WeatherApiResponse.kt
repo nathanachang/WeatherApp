@@ -50,20 +50,17 @@ data class WeatherApiResponse(
     val cnt: Int,
     val list: List<City>
 ) {
-    fun convertToCityCacheList(cityList: List<City>) : List<CityCache> {
+    fun convertToCityCacheList() : List<CityCache> {
         val cacheList = mutableListOf<CityCache>()
-        for (city: City in cityList) {
+        for (city: City in list) {
             val cityCache =  CityCache(
                 id = city.id,
                 name = city.name,
-                coord = city.coord,
-                weather = city.weather,
-                main = city.main,
-                visibility = city.visibility,
-                wind = city.wind,
-                clouds = city.clouds,
-                dt = city.dt,
-                sys = city.sys
+                country = city.sys.country,
+                temp = city.main.temp,
+                temp_min = city.main.temp_min,
+                temp_max = city.main.temp_max,
+                humidity = city.main.humidity
             )
             cacheList.add(cityCache)
         }
