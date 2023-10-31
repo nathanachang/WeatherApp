@@ -14,7 +14,25 @@ data class SingleCityResponse(
     val id: Int,
     val name: String,
     val cod: Int
-)
+) {
+    fun convertToSingleCityCache() : SingleCityCache {
+        return SingleCityCache(
+            id = id,
+            name = name,
+            base = base,
+            country = sys.country,
+            temp = main.temp,
+            temp_min = main.temp_min,
+            temp_max = main.temp_max,
+            humidity = main.humidity,
+            windspeed = wind.speed,
+            pressure = main.pressure,
+            timezone = timezone,
+            sunrise = sys.sunrise,
+            sunset = sys.sunset
+        )
+    }
+}
 data class SysDetails(
     val type: Int,
     val id: Int,

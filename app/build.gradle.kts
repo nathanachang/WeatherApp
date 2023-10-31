@@ -52,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room:room-runtime:2.4.0")
+    implementation("androidx.room:room-ktx:2.4.0")
     implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.navigation:navigation-fragment:2.2.2")
     implementation("androidx.navigation:navigation-ui:2.2.2")
