@@ -11,12 +11,16 @@ abstract class WeatherDatabase : RoomDatabase() {
     abstract fun singleCityDao() : SingleCityDao
 
     companion object {
+        private var dbInstance: WeatherDatabase? = null
         fun getDatabase(context: Context): WeatherDatabase {
-            return Room.databaseBuilder(
+            val db = Room.databaseBuilder(
                 context,
                 WeatherDatabase::class.java,
                 "appdb"
             ).build()
+            dbInstance = db
+
+            return db
         }
     }
 
