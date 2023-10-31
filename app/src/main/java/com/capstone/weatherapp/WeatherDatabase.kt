@@ -11,16 +11,20 @@ abstract class WeatherDatabase : RoomDatabase() {
     abstract fun singleCityDao() : SingleCityDao
 
     companion object {
-        private var dbInstance: WeatherDatabase? = null
+        @Volatile
+        private var INSTANCE: WeatherDatabase? = null
         fun getDatabase(context: Context): WeatherDatabase {
-            val db = Room.databaseBuilder(
-                context,
-                WeatherDatabase::class.java,
-                "appdb"
-            ).build()
-            dbInstance = db
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context,
+                    WeatherDatabase::class.java,
+                    "appdb"
+                )
+                    .build()
 
-            return db
+                INSTANCE = instance
+                return instance
+            }
         }
     }
 
