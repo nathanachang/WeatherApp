@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.capstone.weatherapp.databinding.FragmentDetailsBinding
@@ -30,7 +31,9 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
         get() = _binding!!
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: DetailsViewModel by activityViewModels {
+        DetailsViewModelFactory((activity?.application as WeatherCacheApplication).repo)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,7 +57,7 @@ class DetailsFragment : Fragment() {
         viewModel.city.observe(viewLifecycleOwner) {
             updateBinding(binding, it)
         }
-        viewModel.getCity(cityId)
+        viewModel.getSingleCityFromRepo(cityId)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

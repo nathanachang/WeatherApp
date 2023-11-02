@@ -1,26 +1,45 @@
 package com.capstone.weatherapp
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 private const val APIKEY = "6849ae760f417fb8188f4bb7fd0d92fc"
 private const val UNITS = "imperial"
 
-class DetailsViewModel : ViewModel() {
-    private val _city = MutableLiveData<SingleCityResponse?>()
-    val city: MutableLiveData<SingleCityResponse?>
+class DetailsViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
+    private val _city = weatherRepo.singleCityData
+    val city: MutableLiveData<SingleCityResponse>
         get() = _city
 
-    fun getCity(cityId: String) {
+    private val _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
+    fun getSingleCityFromRepo(cityId: String) {
         viewModelScope.launch {
             try {
-                _city.value = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
+                weatherRepo.refreshSingleCity(cityId)
+                _eventNetworkError.value = false
             } catch (e: Exception) {
-                _city.value = null
+                if(city.value == null) {
+                    _eventNetworkError.value = true
+                }
             }
         }
+    }
+}
+
+class DetailsViewModelFactory(private val repository: WeatherRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DetailsViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unable to construct viewmodel")
     }
 }

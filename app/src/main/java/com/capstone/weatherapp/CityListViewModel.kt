@@ -1,7 +1,9 @@
 package com.capstone.weatherapp
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
@@ -9,18 +11,35 @@ private const val CITIES = "4772354,5368361,5128581,4887398,4699066,5809844,5856
 private const val APIKEY = "6849ae760f417fb8188f4bb7fd0d92fc"
 private const val UNITS = "imperial"
 
-class CityListViewModel : ViewModel() {
-    private val _cityList = MutableLiveData<List<City>>()
+class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
+    private val _cityList = weatherRepo.cityListData
     val cityList: MutableLiveData<List<City>>
         get() = _cityList
 
-    fun getCities() {
+    private val _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean>
+        get() = _eventNetworkError
+
+    fun getCityListFromRepo() {
         viewModelScope.launch {
             try {
-                _cityList.value = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS).list
+                weatherRepo.refreshCityList()
+                _eventNetworkError.value = false
             } catch (e: Exception) {
-                _cityList.value = emptyList()
+                if (cityList.value.isNullOrEmpty()) {
+                    _eventNetworkError.value = true
+                }
             }
         }
+    }
+}
+
+class CityListViewModelFactory(private val repo: WeatherRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(CityListViewModelFactory::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return CityListViewModel(repo) as T
+        }
+        throw IllegalArgumentException("Unable to construct viewmodel")
     }
 }
