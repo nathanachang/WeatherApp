@@ -12,9 +12,7 @@ private const val APIKEY = "6849ae760f417fb8188f4bb7fd0d92fc"
 private const val UNITS = "imperial"
 
 class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
-    private val _cityList = weatherRepo.cityListData
-    val cityList: MutableLiveData<List<City>>
-        get() = _cityList
+    val cityList = weatherRepo.cityListData
 
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     val eventNetworkError: LiveData<Boolean>
@@ -36,7 +34,7 @@ class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel(
 
 class CityListViewModelFactory(private val repo: WeatherRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CityListViewModelFactory::class.java)) {
+        if (modelClass.isAssignableFrom(CityListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return CityListViewModel(repo) as T
         }

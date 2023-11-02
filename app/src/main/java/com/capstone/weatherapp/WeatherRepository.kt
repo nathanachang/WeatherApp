@@ -11,10 +11,10 @@ private const val UNITS = "imperial"
 
 class WeatherRepository(private val db: WeatherDatabase) {
     private val _cityListData = MutableLiveData<List<City>>()
-    val cityListData: MutableLiveData<List<City>>
+    val cityListData: LiveData<List<City>>
         get() = _cityListData
     private val _singleCityData = MutableLiveData<SingleCityResponse>()
-    val singleCityData: MutableLiveData<SingleCityResponse>
+    val singleCityData: LiveData<SingleCityResponse>
         get() = _singleCityData
 
     private fun getNetworkCityList(): List<City> {
@@ -37,6 +37,8 @@ class WeatherRepository(private val db: WeatherDatabase) {
             val singleCity = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
             db.singleCityDao().insert(singleCity.convertToSingleCityCache())
         }
-        _singleCityData.postValue(db.singleCityDao().getSingleCityById(cityId).convertToSingleCityResponse())
+        val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
+        println(singleCityCache.name)
+        _singleCityData.postValue(singleCityCache.convertToSingleCityResponse())
     }
 }

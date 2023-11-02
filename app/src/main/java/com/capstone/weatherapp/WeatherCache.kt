@@ -51,7 +51,8 @@ data class SingleCityCache(
     @ColumnInfo(name = "city") val name: String,
     val country: String,
     val temp: Double,
-    val base: String,
+    val desc: String,
+    val icon: String,
     val temp_min: Double,
     val temp_max: Double,
     val humidity: Double,
@@ -66,8 +67,13 @@ data class SingleCityCache(
             id = id,
             name = name,
             coord = Coord(constants.DOUBLE_ZERO, constants.DOUBLE_ZERO),
-            weather = emptyList(),
-            base = base,
+            weather = listOf(Weather(
+                id=constants.INT_ZERO,
+                main=desc,
+                description=desc,
+                icon=icon
+            )),
+            base = "",
             main = Main(
                 temp=temp,
                 feels_like=temp,

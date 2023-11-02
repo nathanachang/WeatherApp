@@ -12,9 +12,7 @@ private const val APIKEY = "6849ae760f417fb8188f4bb7fd0d92fc"
 private const val UNITS = "imperial"
 
 class DetailsViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
-    private val _city = weatherRepo.singleCityData
-    val city: MutableLiveData<SingleCityResponse>
-        get() = _city
+    val city = weatherRepo.singleCityData
 
     private val _eventNetworkError = MutableLiveData<Boolean>(false)
     val eventNetworkError: LiveData<Boolean>

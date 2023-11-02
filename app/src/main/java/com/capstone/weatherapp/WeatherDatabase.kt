@@ -16,11 +16,10 @@ abstract class WeatherDatabase : RoomDatabase() {
         fun getDatabase(context: Context): WeatherDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context,
+                    context.applicationContext,
                     WeatherDatabase::class.java,
                     "appdb"
-                )
-                    .build()
+                ).allowMainThreadQueries().build()
 
                 INSTANCE = instance
                 return instance
