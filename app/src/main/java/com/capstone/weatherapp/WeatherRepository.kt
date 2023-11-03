@@ -26,19 +26,24 @@ class WeatherRepository(private val db: WeatherDatabase) {
 
     suspend fun refreshCityList() {
         withContext(Dispatchers.IO) {
-            val cityList = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS)
-            db.cityDao().insert(cityList.convertToCityCacheList())
+            try {
+                val cityList = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS)
+                db.cityDao().insert(cityList.convertToCityCacheList())
+            } catch (e: Exception) {}
+            _cityListData.postValue(getNetworkCityList())
         }
-        _cityListData.postValue(getNetworkCityList())
     }
 
     suspend fun refreshSingleCity(cityId: String) {
         withContext(Dispatchers.IO) {
-            val singleCity = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
-            db.singleCityDao().insert(singleCity.convertToSingleCityCache())
+            try {
+                val singleCity = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
+                db.singleCityDao().insert(singleCity.convertToSingleCityCache())
+            } catch (e: Exception) {}
+            val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
+            println(singleCityCache.name)
+            _singleCityData.postValue(singleCityCache.convertToSingleCityResponse())
         }
-        val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
-        println(singleCityCache.name)
-        _singleCityData.postValue(singleCityCache.convertToSingleCityResponse())
+
     }
 }
