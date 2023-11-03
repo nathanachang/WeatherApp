@@ -19,7 +19,8 @@ data class SingleCityResponse(
         return SingleCityCache(
             id = id,
             name = name,
-            base = base,
+            desc = weather[0].main,
+            icon = weather[0].icon,
             country = sys.country,
             temp = main.temp,
             temp_min = main.temp_min,

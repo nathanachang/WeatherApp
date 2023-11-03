@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -31,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -52,13 +53,14 @@ android {
 }
 
 dependencies {
-    implementation("androidx.room:room-runtime:2.4.0")
-    implementation("androidx.room:room-ktx:2.4.0")
+    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
     implementation("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.navigation:navigation-fragment:2.2.2")
     implementation("androidx.navigation:navigation-ui:2.2.2")
-    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.2.2")
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.fragment:fragment:1.2.5")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")

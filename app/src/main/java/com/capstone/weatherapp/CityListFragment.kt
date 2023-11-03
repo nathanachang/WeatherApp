@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.weatherapp.databinding.FragmentCityListBinding
@@ -13,7 +14,9 @@ import androidx.fragment.app.viewModels
 
 class CityListFragment : Fragment() {
 
-    private val viewModel: CityListViewModel by viewModels()
+    private val viewModel: CityListViewModel by activityViewModels {
+        CityListViewModelFactory((activity?.application as WeatherCacheApplication).repo)
+    }
     private lateinit var rvCities: RecyclerView
     private var _binding: FragmentCityListBinding? = null
     private lateinit var cityListAdapter: CityListAdapter
@@ -40,7 +43,7 @@ class CityListFragment : Fragment() {
         viewModel.cityList.observe(viewLifecycleOwner) {
             cityListAdapter.updateData(it)
         }
-        viewModel.getCities()
+        viewModel.getCityListFromRepo()
     }
 
 }
