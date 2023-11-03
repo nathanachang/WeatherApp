@@ -35,7 +35,12 @@ data class CityCache(
                     wind = Wind(constants.DOUBLE_ZERO, constants.INT_ZERO),
                     clouds = Clouds(constants.INT_ZERO),
                     dt = constants.INT_ZERO,
-                    sys = Sys(country=cityCache.country, timezone=0, sunrise=0, sunset=0)
+                    sys = Sys(
+                        country=cityCache.country,
+                        timezone=constants.INT_ZERO,
+                        sunrise=constants.INT_ZERO,
+                        sunset=constants.INT_ZERO
+                    )
                 )
                 cityList.add(city)
             }
@@ -73,7 +78,7 @@ data class SingleCityCache(
                 description=desc,
                 icon=icon
             )),
-            base = "",
+            base = constants.EMPTY_STRING,
             main = Main(
                 temp=temp,
                 feels_like=temp,
