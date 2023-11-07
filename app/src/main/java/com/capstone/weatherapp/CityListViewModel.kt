@@ -24,7 +24,7 @@ class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel(
                 weatherRepo.refreshCityList()
                 _eventNetworkError.value = false
             } catch (e: Exception) {
-                if (cityList.value.isNullOrEmpty()) {
+                if (cityList.value == null) {
                     _eventNetworkError.value = true
                 }
             }
