@@ -17,9 +17,7 @@ class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel(
 
     fun getCityListFromRepo() {
         viewModelScope.launch {
-            try {
-                weatherRepo.refreshCityList()
-            } catch (e: Exception) {}
+            weatherRepo.refreshCityList()
         }
     }
 }

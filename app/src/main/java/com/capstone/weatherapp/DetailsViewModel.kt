@@ -16,9 +16,7 @@ class DetailsViewModel(private val weatherRepo: WeatherRepository) : ViewModel()
 
     fun getSingleCityFromRepo(cityId: String) {
         viewModelScope.launch {
-            try {
-                weatherRepo.refreshSingleCity(cityId)
-            } catch (e: Exception) {}
+            weatherRepo.refreshSingleCity(cityId)
         }
     }
 }

@@ -29,20 +29,15 @@ class WeatherRepository(private val db: WeatherDatabase) {
             _cityListData.postValue(State.Loading)
             try {
                 val cityListResponse = WeatherApiClient.retrofitService.getCities(CITIES, APIKEY, UNITS)
-                if (cityListResponse.isSuccessful) {
-                    val response = cityListResponse.body()!!
-                    _cityListData.postValue(State.Success(response.list))
-                    db.cityDao().insert(response.convertToCityCacheList())
-                }
-                else {
-                    try {
-                        _cityListData.postValue(State.Success(getNetworkCityList()))
-                    } catch (e: Exception) {
-                        _cityListData.postValue(State.Error(e.toString()))
-                    }
-                }
+                val response = cityListResponse.body()!!
+                _cityListData.postValue(State.Success(response.list))
+                db.cityDao().insert(response.convertToCityCacheList())
             } catch (e: Exception) {
-                _cityListData.postValue(State.Error(e.toString()))
+                try {
+                    _cityListData.postValue(State.Success(getNetworkCityList()))
+                } catch (e: Exception) {
+                    _cityListData.postValue(State.Error(e.toString()))
+                }
             }
         }
     }
@@ -52,22 +47,16 @@ class WeatherRepository(private val db: WeatherDatabase) {
             _singleCityData.postValue(State.Loading)
             try {
                 val singleCity = WeatherApiClient.retrofitService.getCity(cityId, APIKEY, UNITS)
-                if (singleCity.isSuccessful) {
-                    val response = singleCity.body()!!
-                    _singleCityData.postValue(State.Success(response))
-                    db.singleCityDao().insert(response.convertToSingleCityCache())
-                }
-                else {
-                    try {
-                        val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
-                        _singleCityData.postValue(State.Success(singleCityCache.convertToSingleCityResponse()))
-                    } catch (e: Exception) {
-                        _singleCityData.postValue(State.Error(e.toString()))
-                    }
-
-                }
+                val response = singleCity.body()!!
+                _singleCityData.postValue(State.Success(response))
+                db.singleCityDao().insert(response.convertToSingleCityCache())
             } catch (e: Exception) {
-                _singleCityData.postValue(State.Error(e.toString()))
+                try {
+                    val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
+                    _singleCityData.postValue(State.Success(singleCityCache.convertToSingleCityResponse()))
+                } catch (e: Exception) {
+                    _singleCityData.postValue(State.Error(e.toString()))
+                }
             }
         }
 
