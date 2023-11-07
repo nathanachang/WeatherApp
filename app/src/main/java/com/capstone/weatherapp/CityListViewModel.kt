@@ -14,20 +14,12 @@ private const val UNITS = "imperial"
 class CityListViewModel(private val weatherRepo: WeatherRepository) : ViewModel() {
     val cityList = weatherRepo.cityListData
 
-    private val _eventNetworkError = MutableLiveData<Boolean>(false)
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
 
     fun getCityListFromRepo() {
         viewModelScope.launch {
             try {
                 weatherRepo.refreshCityList()
-                _eventNetworkError.value = false
-            } catch (e: Exception) {
-                if (cityList.value == null) {
-                    _eventNetworkError.value = true
-                }
-            }
+            } catch (e: Exception) {}
         }
     }
 }

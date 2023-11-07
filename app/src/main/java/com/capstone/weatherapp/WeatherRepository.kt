@@ -35,7 +35,11 @@ class WeatherRepository(private val db: WeatherDatabase) {
                     db.cityDao().insert(response.convertToCityCacheList())
                 }
                 else {
-                    _cityListData.postValue(State.Success(getNetworkCityList()))
+                    try {
+                        _cityListData.postValue(State.Success(getNetworkCityList()))
+                    } catch (e: Exception) {
+                        _cityListData.postValue(State.Error(e.toString()))
+                    }
                 }
             } catch (e: Exception) {
                 _cityListData.postValue(State.Error(e.toString()))
@@ -54,8 +58,13 @@ class WeatherRepository(private val db: WeatherDatabase) {
                     db.singleCityDao().insert(response.convertToSingleCityCache())
                 }
                 else {
-                    val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
-                    _singleCityData.postValue(State.Success(singleCityCache.convertToSingleCityResponse()))
+                    try {
+                        val singleCityCache = db.singleCityDao().getSingleCityById(cityId)
+                        _singleCityData.postValue(State.Success(singleCityCache.convertToSingleCityResponse()))
+                    } catch (e: Exception) {
+                        _singleCityData.postValue(State.Error(e.toString()))
+                    }
+
                 }
             } catch (e: Exception) {
                 _singleCityData.postValue(State.Error(e.toString()))

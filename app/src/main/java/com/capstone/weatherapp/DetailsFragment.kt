@@ -58,7 +58,7 @@ class DetailsFragment : Fragment() {
             when(it) {
                 is State.Success -> showSuccessState(it.result)
                 is State.Loading -> showLoadingState()
-                is State.Error -> showErrorState(it.message)
+                is State.Error -> showErrorState()
             }
         }
         viewModel.getSingleCityFromRepo(cityId)
@@ -67,21 +67,17 @@ class DetailsFragment : Fragment() {
     fun showLoadingState() {
         binding.detailsLayout.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
-        binding.detailsState.text = ""
-        Glide.with(this)
-            .load(R.drawable.loading)
-            .centerCrop()
-            .into(binding.detailsStateIcon)
+        binding.detailsStateIcon.visibility = View.GONE
+        binding.detailsLoadingIcon.visibility = View.VISIBLE
+        binding.detailsState.text = constants.EMPTY_STRING
     }
 
-    fun showErrorState(message: String) {
+    fun showErrorState() {
         binding.detailsLayout.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
-        binding.detailsState.text = message
-        Glide.with(this)
-            .load(R.drawable.snag_error)
-            .centerCrop()
-            .into(binding.detailsStateIcon)
+        binding.detailsStateIcon.visibility = View.VISIBLE
+        binding.detailsLoadingIcon.visibility = View.GONE
+        binding.detailsState.text = constants.ERROR_STRING
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

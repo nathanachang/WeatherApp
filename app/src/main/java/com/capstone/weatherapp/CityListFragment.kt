@@ -48,7 +48,7 @@ class CityListFragment : Fragment() {
             when(it) {
                 is State.Success -> showSuccessState(it.result)
                 is State.Loading -> showLoadingState()
-                is State.Error -> showErrorState(it.message)
+                is State.Error -> showErrorState()
             }
         }
         viewModel.getCityListFromRepo()
@@ -57,21 +57,17 @@ class CityListFragment : Fragment() {
     fun showLoadingState() {
         binding.rvCities.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
-        binding.detailsState.text = ""
-        Glide.with(this)
-            .load(R.drawable.loading)
-            .centerCrop()
-            .into(binding.detailsStateIcon)
+        binding.cityListStateIcon.visibility = View.GONE
+        binding.cityListLoadingIcon.visibility = View.VISIBLE
+        binding.cityListState.text = constants.EMPTY_STRING
     }
 
-    fun showErrorState(message: String) {
+    fun showErrorState() {
         binding.rvCities.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
-        binding.detailsState.text = message
-        Glide.with(this)
-            .load(R.drawable.snag_error)
-            .centerCrop()
-            .into(binding.detailsStateIcon)
+        binding.cityListStateIcon.visibility = View.VISIBLE
+        binding.cityListLoadingIcon.visibility = View.GONE
+        binding.cityListState.text = constants.ERROR_STRING
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
