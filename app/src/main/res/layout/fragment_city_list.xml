@@ -17,6 +17,9 @@
         >
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/cityListLoadingIcon"
+            app:indicatorSize="60dp"
+            app:indicatorColor="@color/white"
+            android:indeterminate="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="150dp"

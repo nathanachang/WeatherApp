@@ -46,9 +46,9 @@ class CityListFragment : Fragment() {
 
         viewModel.cityList.observe(viewLifecycleOwner) {
             when(it) {
-                is State.Success -> showSuccessState(it.result)
-                is State.Loading -> showLoadingState()
-                is State.Error -> showErrorState()
+                is CityListState.Success -> showSuccessState(it.result)
+                is CityListState.Loading -> showLoadingState()
+                is CityListState.Error -> showErrorState()
             }
         }
         viewModel.getCityListFromRepo()
@@ -66,6 +66,7 @@ class CityListFragment : Fragment() {
         binding.rvCities.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
         binding.cityListStateIcon.visibility = View.VISIBLE
+        binding.cityListStateIcon.setImageResource(R.drawable.snag_error)
         binding.cityListLoadingIcon.visibility = View.GONE
         binding.cityListState.text = constants.ERROR_STRING
     }

@@ -56,9 +56,9 @@ class DetailsFragment : Fragment() {
 
         viewModel.city.observe(viewLifecycleOwner) {
             when(it) {
-                is State.Success -> showSuccessState(it.result)
-                is State.Loading -> showLoadingState()
-                is State.Error -> showErrorState()
+                is SingleCityState.Success -> showSuccessState(it.result)
+                is SingleCityState.Loading -> showLoadingState()
+                is SingleCityState.Error -> showErrorState()
             }
         }
         viewModel.getSingleCityFromRepo(cityId)
@@ -76,6 +76,7 @@ class DetailsFragment : Fragment() {
         binding.detailsLayout.visibility = View.GONE
         binding.stateLayout.visibility = View.VISIBLE
         binding.detailsStateIcon.visibility = View.VISIBLE
+        binding.detailsStateIcon.setImageResource(R.drawable.snag_error)
         binding.detailsLoadingIcon.visibility = View.GONE
         binding.detailsState.text = constants.ERROR_STRING
     }
