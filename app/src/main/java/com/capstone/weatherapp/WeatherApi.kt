@@ -1,6 +1,7 @@
 package com.capstone.weatherapp
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -23,14 +24,14 @@ interface WeatherApi {
         @Query("id") cities: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String
-    ) : WeatherApiResponse
+    ) : Response<WeatherApiResponse>
 
     @GET("data/2.5/weather")
     suspend fun getCity(
         @Query("id") cityId: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String
-    ) : SingleCityResponse
+    ) : Response<SingleCityResponse>
 }
 
 object WeatherApiClient {

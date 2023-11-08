@@ -55,13 +55,41 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.city.observe(viewLifecycleOwner) {
-            updateBinding(binding, it)
+            when(it) {
+                is SingleCityState.Success -> showSuccessState(it.result)
+                is SingleCityState.Loading -> showLoadingState()
+                is SingleCityState.Error -> showErrorState()
+            }
         }
         viewModel.getSingleCityFromRepo(cityId)
     }
 
+    fun showLoadingState() {
+        binding.detailsLayout.visibility = View.GONE
+        binding.stateLayout.visibility = View.VISIBLE
+        binding.detailsStateIcon.visibility = View.GONE
+        binding.detailsLoadingIcon.visibility = View.VISIBLE
+        binding.detailsState.text = constants.EMPTY_STRING
+    }
+
+    fun showErrorState() {
+        binding.detailsLayout.visibility = View.GONE
+        binding.stateLayout.visibility = View.VISIBLE
+        binding.detailsStateIcon.visibility = View.VISIBLE
+        binding.detailsStateIcon.setImageResource(R.drawable.snag_error)
+        binding.detailsLoadingIcon.visibility = View.GONE
+        binding.detailsState.text = constants.ERROR_STRING
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun updateBinding(binding: FragmentDetailsBinding, city: SingleCityResponse?) {
+    fun showSuccessState(city: SingleCityResponse) {
+        binding.detailsLayout.visibility = View.VISIBLE
+        binding.stateLayout.visibility = View.GONE
+        updateBinding(binding, city)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateBinding(binding: FragmentDetailsBinding, city: SingleCityResponse) {
         Glide.with(this)
             .load("https://openweathermap.org/img/wn/" + city!!.weather[0].icon + "@2x.png")
             .centerCrop()

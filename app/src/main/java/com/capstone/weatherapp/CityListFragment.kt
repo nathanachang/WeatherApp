@@ -1,16 +1,19 @@
 package com.capstone.weatherapp
 
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.weatherapp.databinding.FragmentCityListBinding
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 
 class CityListFragment : Fragment() {
 
@@ -32,6 +35,7 @@ class CityListFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,9 +45,37 @@ class CityListFragment : Fragment() {
         rvCities.layoutManager = LinearLayoutManager(context)
 
         viewModel.cityList.observe(viewLifecycleOwner) {
-            cityListAdapter.updateData(it)
+            when(it) {
+                is CityListState.Success -> showSuccessState(it.result)
+                is CityListState.Loading -> showLoadingState()
+                is CityListState.Error -> showErrorState()
+            }
         }
         viewModel.getCityListFromRepo()
+    }
+
+    fun showLoadingState() {
+        binding.rvCities.visibility = View.GONE
+        binding.stateLayout.visibility = View.VISIBLE
+        binding.cityListStateIcon.visibility = View.GONE
+        binding.cityListLoadingIcon.visibility = View.VISIBLE
+        binding.cityListState.text = constants.EMPTY_STRING
+    }
+
+    fun showErrorState() {
+        binding.rvCities.visibility = View.GONE
+        binding.stateLayout.visibility = View.VISIBLE
+        binding.cityListStateIcon.visibility = View.VISIBLE
+        binding.cityListStateIcon.setImageResource(R.drawable.snag_error)
+        binding.cityListLoadingIcon.visibility = View.GONE
+        binding.cityListState.text = constants.ERROR_STRING
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun showSuccessState(cityList: List<City>) {
+        binding.rvCities.visibility = View.VISIBLE
+        binding.stateLayout.visibility = View.GONE
+        cityListAdapter.updateData(cityList)
     }
 
 }
