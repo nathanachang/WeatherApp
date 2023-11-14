@@ -21,6 +21,13 @@ class CityListViewModelUnitTest {
     }
 
     @Test
+    fun `ViewModel factory successfully creates ViewModel`() = runTest {
+        val result  = CityListViewModelFactory(repo).create(CityListViewModel::class.java)
+
+        assertEquals(result::class.java, CityListViewModel::class.java)
+    }
+
+    @Test
     fun `viewModel successfully refreshes cityList from the repo`() = runTest {
         Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = CityListState.Success(listOf(TestObjects.testCity))

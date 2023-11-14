@@ -23,6 +23,13 @@ class DetailsViewModelTest {
     }
 
     @Test
+    fun `ViewModel factory successfully creates ViewModel`() = runTest {
+        val result  = DetailsViewModelFactory(repo).create(DetailsViewModel::class.java)
+
+        Assert.assertEquals(result::class.java, DetailsViewModel::class.java)
+    }
+
+    @Test
     fun `viewModel successfully refreshes singleCity from the repo`() = runTest {
         Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = SingleCityState.Success(TestObjects.testSingleCityResponse)
@@ -45,5 +52,13 @@ class DetailsViewModelTest {
         viewModel.getSingleCityFromRepo(constants.EMPTY_STRING)
 
         Assert.assertEquals(expected, viewModel.city.value)
+    }
+
+    @Test
+    fun `ViewModel successfully converts time with timezone offset`() = runTest {
+        val result = "6:50 AM"
+        val expected = viewModel.convertTime(1699962610, -18000)
+
+        Assert.assertEquals(expected, result)
     }
 }
