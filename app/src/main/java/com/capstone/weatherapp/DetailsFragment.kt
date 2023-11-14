@@ -8,13 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.capstone.weatherapp.databinding.FragmentDetailsBinding
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
@@ -102,15 +97,8 @@ class DetailsFragment : Fragment() {
         binding.detailsHumidity.text = "${city?.main?.humidity?.roundToInt()}%"
         binding.detailsWindspeed.text = "${city?.wind?.speed?.roundToInt()} MPH"
         binding.detailsPressure.text = "${city?.main?.pressure?.roundToInt()} hPa"
-        binding.detailsSunrise.text = convertTime(city?.sys?.sunrise, city?.timezone)
-        binding.detailsSunset.text = convertTime(city?.sys?.sunset, city?.timezone)
+        binding.detailsSunrise.text = viewModel.convertTime(city?.sys?.sunrise, city?.timezone)
+        binding.detailsSunset.text = viewModel.convertTime(city?.sys?.sunset, city?.timezone)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun convertTime(timestamp: Int?, timeZoneOffset: Int?): String {
-        val offset = ZoneOffset.ofTotalSeconds(timeZoneOffset!!)
-        val instant = Instant.ofEpochSecond(timestamp!!.toLong())
-        val formatter = DateTimeFormatter.ofPattern("K:mm a", Locale.ENGLISH)
-        return instant.atOffset(offset).format(formatter)
-    }
 }

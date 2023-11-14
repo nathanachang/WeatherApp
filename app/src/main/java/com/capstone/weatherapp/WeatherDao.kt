@@ -8,6 +8,8 @@ import androidx.room.Query
 
 @Dao
 interface CityDao {
+    @Query("SELECT EXISTS(SELECT * FROM cityCache WHERE id = :cityId)")
+    fun cityExists(cityId: String) : Boolean
     @Query("SELECT * FROM cityCache")
     fun getCityWeather() : List<CityCache>
 
@@ -20,6 +22,8 @@ interface CityDao {
 
 @Dao
 interface SingleCityDao {
+    @Query("SELECT EXISTS(SELECT * FROM singleCityCache WHERE id = :cityId)")
+    fun singleCityExists(cityId: String) : Boolean
     @Query("SELECT * FROM singleCityCache where id = :cityId")
     fun getSingleCityById(cityId: String) : SingleCityCache
 
