@@ -5,17 +5,37 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DetailsViewModelTest {
     private val repo = mockk<WeatherRepository>(relaxed = true)
     private lateinit var viewModel: DetailsViewModel
+
+    class MainDispatcherRule(
+        val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+    ) : TestWatcher() {
+        override fun starting(description: Description) {
+            Dispatchers.setMain(testDispatcher)
+        }
+
+        override fun finished(description: Description) {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setUp() {
@@ -31,7 +51,6 @@ class DetailsViewModelTest {
 
     @Test
     fun `viewModel successfully refreshes singleCity from the repo`() = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = SingleCityState.Success(TestObjects.testSingleCityResponse)
         val cityId = TestObjects.testSingleCityResponse.id.toString()
         coEvery { repo.refreshSingleCity(cityId) } answers {
@@ -44,7 +63,6 @@ class DetailsViewModelTest {
 
     @Test
     fun `viewModel unsuccessfully refreshes singleCity from the repo`() = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = SingleCityState.Error(constants.EMPTY_STRING)
         coEvery { repo.refreshSingleCity(constants.EMPTY_STRING) } answers {
             every { repo.singleCityData.value } returns expected

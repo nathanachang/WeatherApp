@@ -8,12 +8,30 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CityListViewModelUnitTest {
     private val repo = mockk<WeatherRepository>(relaxed = true)
     private lateinit var viewModel: CityListViewModel
+
+    class MainDispatcherRule(
+        val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+    ) : TestWatcher() {
+        override fun starting(description: Description) {
+            Dispatchers.setMain(testDispatcher)
+        }
+
+        override fun finished(description: Description) {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @Before
     fun setUp() {
@@ -29,7 +47,6 @@ class CityListViewModelUnitTest {
 
     @Test
     fun `viewModel successfully refreshes cityList from the repo`() = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = CityListState.Success(listOf(TestObjects.testCity))
         coEvery { repo.refreshCityList() } answers {
             every { repo.cityListData.value } returns expected
@@ -41,7 +58,6 @@ class CityListViewModelUnitTest {
 
     @Test
     fun `viewModel unsuccessfully refreshes cityList from the repo`() = runTest {
-        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
         val expected = CityListState.Error(constants.EMPTY_STRING)
         coEvery { repo.refreshCityList() } answers {
             every { repo.cityListData.value } returns expected
